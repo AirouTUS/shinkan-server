@@ -42,7 +42,15 @@ func main() {
 		os.Getenv("MYSQL_DATABASE"))
 	apiHandler := handler.NewHandler(dbRepo)
 
+	var err error
+	handler.Categories, err = dbRepo.ListCategory(database.ListCategoryInput{})
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+
 	e.GET("/categories", apiHandler.ListCategory)
+	e.GET("/circles/:id", apiHandler.GetCircle)
 
 	basic_username := os.Getenv("SHINKAN_USER_NAME")
 	basic_password := os.Getenv("SHINAKN_PASSWORD")

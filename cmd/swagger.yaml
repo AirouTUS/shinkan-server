@@ -97,18 +97,28 @@ components:
         description:
           type: string
           description: サークル説明
-        type:
+        types:
           type: array
           items:
             type: object
             properties:
+              id:
+                type: integer
+                example: 1
               name:
                 type: string
                 example: "葛飾"
         category:
-          type: string
-          description: サークルカテゴリー名
-          example: "文化系"
+          type: object
+          properties:
+            id:
+              type: integer
+              description: サークルカテゴリーID
+              example: 3
+            name:
+              type: string
+              description: サークルカテゴリー名
+              example: "文化系"
     CircleListResponse:
       type: object
       properties:

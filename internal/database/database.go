@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-gorp/gorp"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/pkg/errors"
 )
 
 // Driver名
@@ -47,8 +48,50 @@ func (db *ShinkanDatabase) ListCategory(input ListCategoryInput) ([]*model.Categ
 	var m CategoryList
 	_, err := db.Map.Select(&m, fmt.Sprintf("SELECT id, name FROM %s ORDER BY id ASC", tableCircleCategories))
 	if err != nil {
-		return nil, err
+		return nil, errors.WithStack(err)
 	}
 
 	return m.category(), nil
+}
+
+func (db *ShinkanDatabase) GetCircle(input GetCircleInput) (*model.Circle, error) {
+	if err := input.validate(); err != nil {
+		return nil, errors.WithStack(err)
+	}
+	var m Circle
+	err := db.Map.SelectOne(&m, fmt.Sprintf("SELECT * FROM %s WHERE id = ?", tableCircles), input.ID)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	return m.circle(), nil
+}
+
+func (db *ShinkanDatabase) ListCirclesCircleTypes(input ListCirclesCircleTypesInput) ([]*model.CirclesCircleTypes, error) {
+	if err := input.validate(); err != nil {
+		return nil, errors.WithStack(err)
+	}
+	var m CirclesCircleTypesList
+	_, err := db.Map.Select(&m, fmt.Sprintf(
+		`SELECT 
+				%s.circle_type_id,
+				%s.name 
+			FROM 
+				%s 
+			JOIN 
+				%s
+			ON
+				%s.circle_type_id = %s.id
+			WHERE
+				%s.circle_id = ?
+			ORDER BY
+				%s.id
+			ASC`,
+		tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes),
+		input.ID)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	return m.circlesCircleTypes(), nil
 }

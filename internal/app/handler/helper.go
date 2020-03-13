@@ -21,3 +21,7 @@ func APIResponseError(c echo.Context, status int, message string, err error) err
 	log.Println(err)
 	return c.JSON(status, APIErrorResponse{Code: fmt.Sprintf("%d", status), Message: message})
 }
+
+func APIResponse(c echo.Context, status int, message string) error {
+	return c.JSON(status, APIErrorResponse{Code: fmt.Sprintf("%d", status), Message: message})
+}

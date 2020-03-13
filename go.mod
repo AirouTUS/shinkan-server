@@ -9,6 +9,7 @@ require (
 	github.com/labstack/echo/v4 v4.1.15
 	github.com/lib/pq v1.3.0 // indirect
 	github.com/mattn/go-sqlite3 v2.0.3+incompatible // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/poy/onpar v0.0.0-20190519213022-ee068f8ea4d1 // indirect
 	github.com/ziutek/mymysql v1.5.4 // indirect
 )
