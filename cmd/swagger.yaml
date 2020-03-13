@@ -1,0 +1,126 @@
+openapi: 3.0.2
+info:
+  title: Shinakan API
+  description: |-
+    理科大新歓用のAPI
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: circle
+    description: サークル関連API
+
+paths:
+  /categories:
+    get:
+      tags:
+        - circle
+      summary: カテゴリー一覧取得API
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'
+  /circles/{id}:
+    get:
+      tags:
+        - circle
+      summary: サークル情報取得API
+      description: サークルの情報を取得します。
+      parameters:
+        - name: id
+          in: path
+          description: サークルID
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CircleGetResponse'
+  /circles:
+    get:
+      tags:
+        - circle
+      summary: サークル一覧取得APi
+      description: パラメータがない場合は全サークル情報を返します
+      parameters:
+        - name: categoryID
+          in: query
+          description: カテゴリーID
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CircleListResponse'
+components:
+  schemas:
+    CategoryListResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+    CircleGetResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          description: サークル名
+          example: "airou"
+        about:
+          type: string
+          description: サークル概要
+          example: "プログラミング学習、教育"
+        catchCopy:
+          type: string
+          description: キャッチコピー
+        description:
+          type: string
+          description: サークル説明
+        type:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "葛飾"
+        category:
+          type: string
+          description: サークルカテゴリー名
+          example: "文化系"
+    CircleListResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "文化系"
+        circles:
+          type: array
+          items:
+            $ref: '#/components/schemas/CircleGetResponse'
