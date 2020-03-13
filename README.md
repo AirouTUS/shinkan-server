@@ -41,12 +41,3 @@ $ make compose/down
 ```
 $ go run ./cmd/main.go
 ```
-
-### ビルド方法
-作成したAPIを実際にをサーバ上にデプロイする場合は、<br>
-ビルドされたバイナリファイルを配置して起動することでデプロイを行います。
-#### ローカルビルド
-Macの場合
-```
-$ GOOS=linux GOARCH=amd64 go build -o dojo-api ./cmd/main.go
-```
