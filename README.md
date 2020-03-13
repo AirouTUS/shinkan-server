@@ -21,11 +21,21 @@ $ export MYSQL_USER=root \
 $ cp docker-compose.sample.yaml docker-compose.yaml
 ```
 
-### MySQLの起動
+## Usage
+### up
 ```
-$ docker-compose up -d
+$ make compose/up
 ```
 
+### seed
+```
+$ make docker/mysql/seed
+```
+
+### down
+```
+$ make compose/down
+```
 
 ## APIローカル起動方法
 ```

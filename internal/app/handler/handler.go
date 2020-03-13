@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/AirouTUS/shinkan-server/internal/app/input"
+	"github.com/AirouTUS/shinkan-server/internal/app/output"
 	"github.com/AirouTUS/shinkan-server/internal/database"
 	"github.com/labstack/echo/v4"
 )
@@ -21,10 +21,9 @@ func NewHandler(
 }
 
 func (h *Handler) ListCategory(c echo.Context) error {
-	var param input.ListCategoryInput
-	if err := c.Bind(&param); err != nil {
-		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
+	categories, err := h.dbRepository.ListCategory(database.ListCategoryInput{})
+	if err != nil {
+		return APIResponseError(c, http.StatusInternalServerError, "Internal Server Error", err)
 	}
-	//categories, err := h.dbRepository.ListCategory(database.ListCategoryInput{})
-	return APIResponseOK(c, param)
+	return APIResponseOK(c, output.ToCategoryList(categories))
 }

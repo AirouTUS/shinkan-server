@@ -5,36 +5,38 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `shinkan` DEFAULT CHARACTER SET utf8;
 USE `shinkan`;
 
-CREATE TABLE IF NOT EXISTS `shinkan`.`circle_category` (
+CREATE TABLE IF NOT EXISTS `shinkan`.`circle_categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `shinkan`.`circle_type` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
-CREATE TABLE IF NOT EXISTS `shinkan`.`circle` (
+CREATE TABLE IF NOT EXISTS `shinkan`.`circles` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   `about` VARCHAR(45) NULL,
   `catch_copy` VARCHAR(45) NULL,
   `description` VARCHAR(255) NULL,
+  `circle_category_id` INT NOT NULL,
   `email` VARCHAR(255) NULL,
   `twitter` VARCHAR(45) NULL,
   `url` VARCHAR(255) NULL,
-  `circle_category_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_circle_circle_category_idx` (`circle_category_id` ASC),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
   CONSTRAINT `fk_circle_circle_category`
     FOREIGN KEY (`circle_category_id`)
-    REFERENCES `shinkan`.`circle_category` (`id`)
+    REFERENCES `shinkan`.`circle_categories` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `shinkan`.`circle_types` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `shinkan`.`circles_circle_types` (
@@ -46,17 +48,17 @@ CREATE TABLE IF NOT EXISTS `shinkan`.`circles_circle_types` (
   INDEX `fk_circles_circle_types_circle1_idx` (`circle_id` ASC),
   CONSTRAINT `fk_circles_circle_types_circle_type1`
     FOREIGN KEY (`circle_type_id`)
-    REFERENCES `shinkan`.`circle_type` (`id`)
+    REFERENCES `shinkan`.`circle_types` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_circles_circle_types_circle1`
     FOREIGN KEY (`circle_id`)
-    REFERENCES `shinkan`.`circle` (`id`)
+    REFERENCES `shinkan`.`circles` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `shinkan`.`circle_image` (
+CREATE TABLE IF NOT EXISTS `shinkan`.`circle_images` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `url` VARCHAR(45) NOT NULL,
   `circle_id` INT NOT NULL,
@@ -64,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `shinkan`.`circle_image` (
   INDEX `fk_circle_image_circle1_idx` (`circle_id` ASC),
   CONSTRAINT `fk_circle_image_circle1`
     FOREIGN KEY (`circle_id`)
-    REFERENCES `shinkan`.`circle` (`id`)
+    REFERENCES `shinkan`.`circles` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
