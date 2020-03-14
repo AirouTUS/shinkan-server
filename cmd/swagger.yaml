@@ -122,14 +122,6 @@ components:
     CircleListResponse:
       type: object
       properties:
-        categories:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                example: "文化系"
         circles:
           type: array
           items:

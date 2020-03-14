@@ -21,6 +21,17 @@ func (m CategoryList) category() []*model.Category {
 	return result
 }
 
+type CircleList []Circle
+
+func (m CircleList) circles() []*model.Circle {
+	result := make([]*model.Circle, 0, len(m))
+	for _, v := range m {
+		content := model.Circle(v)
+		result = append(result, &content)
+	}
+	return result
+}
+
 type Circle struct {
 	ID          int    `db:"id"`
 	Name        string `db:"name"`

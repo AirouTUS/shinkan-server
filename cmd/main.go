@@ -51,6 +51,7 @@ func main() {
 
 	e.GET("/categories", apiHandler.ListCategory)
 	e.GET("/circles/:id", apiHandler.GetCircle)
+	e.GET("/circles", apiHandler.ListCircle)
 
 	basic_username := os.Getenv("SHINKAN_USER_NAME")
 	basic_password := os.Getenv("SHINAKN_PASSWORD")

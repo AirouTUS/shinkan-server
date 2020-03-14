@@ -2,6 +2,7 @@ package output
 
 import (
 	"github.com/AirouTUS/shinkan-server/internal/model"
+	"github.com/AirouTUS/shinkan-server/internal/usecase"
 )
 
 type CategoryList struct {
@@ -59,6 +60,34 @@ func ToGetCircle(circle *model.Circle, types []*model.CirclesCircleTypes, catego
 			Name: v.Name,
 		}
 		result.Types = append(result.Types, content)
+	}
+	return
+}
+
+type CircleList struct {
+	Categories []Category `json:"categories"`
+	Circles    []Circle   `json:"circles"`
+}
+
+func ToListCircle(circles []*model.Circle, categories []usecase.CircleCategory) (result CircleList) {
+	result.Categories = make([]Category, 0, len(categories))
+	result.Circles = make([]Circle, 0, len(circles))
+	for _, v := range circles {
+		content := Circle{
+			ID:          v.ID,
+			Name:        v.Name,
+			About:       v.About,
+			CatchCopy:   v.CatchCopy,
+			Description: v.Description,
+		}
+		result.Circles = append(result.Circles, content)
+	}
+	for _, v := range categories {
+		content := Category{
+			ID:   v.ID,
+			Name: v.Name,
+		}
+		result.Categories = append(result.Categories, content)
 	}
 	return
 }

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/AirouTUS/shinkan-server/internal/model"
 
@@ -94,4 +95,36 @@ func (db *ShinkanDatabase) ListCirclesCircleTypes(input ListCirclesCircleTypesIn
 	}
 
 	return m.circlesCircleTypes(), nil
+}
+
+func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, error) {
+	if err := input.validate(); err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	var m CircleList
+
+	{
+		if len(input.CategoryID) > 0 {
+			valueStrings := make([]string, 0, len(input.CategoryID))
+			valueArgs := make([]interface{}, 0, len(input.CategoryID))
+			for _, v := range input.CategoryID {
+				valueStrings = append(valueStrings, "circle_category_id = ?")
+				valueArgs = append(valueArgs, v)
+			}
+
+			_, err := db.Map.Select(&m, fmt.Sprintf(`SELECT * FROM %s WHERE %s`, tableCircles, strings.Join(valueStrings, ",")), valueArgs...)
+			if err != nil {
+				return nil, errors.WithStack(err)
+			}
+		} else {
+			_, err := db.Map.Select(&m, fmt.Sprintf(`SELECT * FROM %s`, tableCircles))
+			if err != nil {
+				return nil, errors.WithStack(err)
+			}
+
+		}
+	}
+
+	return m.circles(), nil
 }

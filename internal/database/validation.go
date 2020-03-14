@@ -23,3 +23,12 @@ func (i ListCirclesCircleTypesInput) validate() error {
 	}
 	return nil
 }
+
+func (i ListCircleInput) validate() error {
+	for _, v := range i.CategoryID {
+		if v <= 0 {
+			return ErrInvalidInput
+		}
+	}
+	return nil
+}
