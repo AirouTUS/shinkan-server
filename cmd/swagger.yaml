@@ -97,6 +97,14 @@ components:
         description:
           type: string
           description: サークル説明
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                example: "https://example.com"
         types:
           type: array
           items:

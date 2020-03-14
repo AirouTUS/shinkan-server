@@ -47,7 +47,7 @@ func (db *ShinkanDatabase) ListCategory(input ListCategoryInput) ([]*model.Categ
 		return nil, err
 	}
 	var m CategoryList
-	_, err := db.Map.Select(&m, fmt.Sprintf("SELECT id, name FROM %s ORDER BY id ASC", tableCircleCategories))
+	_, err := db.Map.Select(&m, fmt.Sprintf("SELECT * FROM %s ORDER BY id ASC", tableCircleCategories))
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -55,46 +55,46 @@ func (db *ShinkanDatabase) ListCategory(input ListCategoryInput) ([]*model.Categ
 	return m.category(), nil
 }
 
-func (db *ShinkanDatabase) GetCircle(input GetCircleInput) (*model.Circle, error) {
+func (db *ShinkanDatabase) GetCircle(input GetCircleInput) ([]*model.Circle, error) {
 	if err := input.validate(); err != nil {
 		return nil, errors.WithStack(err)
 	}
-	var m Circle
-	err := db.Map.SelectOne(&m, fmt.Sprintf("SELECT * FROM %s WHERE id = ?", tableCircles), input.ID)
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-
-	return m.circle(), nil
-}
-
-func (db *ShinkanDatabase) ListCirclesCircleTypes(input ListCirclesCircleTypesInput) ([]*model.CirclesCircleTypes, error) {
-	if err := input.validate(); err != nil {
-		return nil, errors.WithStack(err)
-	}
-	var m CirclesCircleTypesList
+	var m CircleList
 	_, err := db.Map.Select(&m, fmt.Sprintf(
 		`SELECT 
-				%s.circle_type_id,
-				%s.name 
+				circles.id, 
+				circles.name, 
+				circles.about,
+				circles.catch_copy,
+				circles.description,
+				circles.circle_category_id,
+				circles.email,
+				circles.twitter,
+				circles.url,
+				circle_types.id AS type_id,
+				circle_types.name AS type_name
 			FROM 
 				%s 
-			JOIN 
+			LEFT JOIN 
 				%s
 			ON
+				%s.circle_id = %s.id
+			LEFT JOIN
+				%s
+			ON 
 				%s.circle_type_id = %s.id
-			WHERE
-				%s.circle_id = ?
+			WHERE 
+				%s.id = ?
 			ORDER BY
 				%s.id
 			ASC`,
-		tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes),
+		tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCircles, tableCircles),
 		input.ID)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	return m.circlesCircleTypes(), nil
+	return m.circles(), nil
 }
 
 func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, error) {
@@ -113,12 +113,67 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 				valueArgs = append(valueArgs, v)
 			}
 
-			_, err := db.Map.Select(&m, fmt.Sprintf(`SELECT * FROM %s WHERE %s`, tableCircles, strings.Join(valueStrings, ",")), valueArgs...)
+			_, err := db.Map.Select(&m, fmt.Sprintf(
+				`SELECT 
+						circles.id, 
+						circles.name, 
+						circles.about,
+						circles.catch_copy,
+						circles.description,
+						circles.circle_category_id,
+						circles.email,
+						circles.twitter,
+						circles.url,
+						circle_types.id AS type_id,
+						circle_types.name AS type_name
+				FROM 
+						%s 
+				LEFT JOIN 
+						%s
+				ON
+						%s.circle_id = %s.id
+				LEFT JOIN
+						%s
+				ON 
+						%s.circle_type_id = %s.id
+				WHERE 
+						%s
+				ORDER BY
+						%s.id
+				ASC`,
+				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes,
+				strings.Join(valueStrings, ","), tableCircles), valueArgs...)
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
 		} else {
-			_, err := db.Map.Select(&m, fmt.Sprintf(`SELECT * FROM %s`, tableCircles))
+			_, err := db.Map.Select(&m, fmt.Sprintf(
+				`SELECT 
+						circles.id, 
+						circles.name, 
+						circles.about,
+						circles.catch_copy,
+						circles.description,
+						circles.circle_category_id,
+						circles.email,
+						circles.twitter,
+						circles.url,
+						circle_types.id AS type_id,
+						circle_types.name AS type_name
+				FROM 
+						%s 
+				LEFT JOIN 
+						%s
+				ON
+						%s.circle_id = %s.id
+				LEFT JOIN
+						%s
+				ON 
+						%s.circle_type_id = %s.id
+				ORDER BY
+						%s.id
+				ASC`,
+				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCircles))
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}

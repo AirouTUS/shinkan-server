@@ -10,9 +10,6 @@ type Circle struct {
 	Email       string
 	Twitter     string
 	URL         string
-}
-
-type CirclesCircleTypes struct {
-	CircleTypeID int
-	Name         string
+	TypeID      *int
+	TypeName    *string
 }

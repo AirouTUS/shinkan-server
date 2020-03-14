@@ -17,13 +17,6 @@ func (i GetCircleInput) validate() error {
 	return nil
 }
 
-func (i ListCirclesCircleTypesInput) validate() error {
-	if i.ID <= 0 {
-		return ErrInvalidInput
-	}
-	return nil
-}
-
 func (i ListCircleInput) validate() error {
 	for _, v := range i.CategoryID {
 		if v <= 0 {
