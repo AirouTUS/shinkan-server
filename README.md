@@ -22,9 +22,9 @@ $ cp docker-compose.sample.yaml docker-compose.yaml
 ```
 
 ## Usage
-### up
+### run
 ```
-$ make compose/up
+$ make docker/run
 ```
 
 ### seed
@@ -34,10 +34,5 @@ $ make docker/mysql/seed
 
 ### down
 ```
-$ make compose/down
-```
-
-## APIローカル起動方法
-```
-$ go run ./cmd/main.go
+$ make docker/down
 ```

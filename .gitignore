@@ -1,3 +1,8 @@
+# plugins
 .idea
+
+# config files
 docker-compose.yaml
 db/data
+*.env
+vendor
