@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/AirouTUS/shinkan-server/internal/app/handler"
+	"github.com/AirouTUS/shinkan-server/pkg/app/handler"
 
-	"github.com/AirouTUS/shinkan-server/internal/database"
+	"github.com/AirouTUS/shinkan-server/pkg/database"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )

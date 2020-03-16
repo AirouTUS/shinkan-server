@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/AirouTUS/shinkan-server/internal/model"
+	"github.com/AirouTUS/shinkan-server/pkg/model"
 
 	"github.com/go-gorp/gorp"
 	_ "github.com/go-sql-driver/mysql"

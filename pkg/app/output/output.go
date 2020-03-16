@@ -1,8 +1,8 @@
 package output
 
 import (
-	"github.com/AirouTUS/shinkan-server/internal/model"
-	"github.com/AirouTUS/shinkan-server/internal/usecase"
+	"github.com/AirouTUS/shinkan-server/pkg/model"
+	"github.com/AirouTUS/shinkan-server/pkg/usecase"
 )
 
 type CategoryList struct {

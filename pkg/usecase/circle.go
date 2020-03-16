@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/AirouTUS/shinkan-server/internal/model"
+	"github.com/AirouTUS/shinkan-server/pkg/model"
 )
 
 type Circle struct {

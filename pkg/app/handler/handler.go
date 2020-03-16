@@ -4,14 +4,14 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/AirouTUS/shinkan-server/internal/usecase"
+	"github.com/AirouTUS/shinkan-server/pkg/usecase"
 
-	"github.com/AirouTUS/shinkan-server/internal/app/input"
+	"github.com/AirouTUS/shinkan-server/pkg/app/input"
 
-	"github.com/AirouTUS/shinkan-server/internal/model"
+	"github.com/AirouTUS/shinkan-server/pkg/model"
 
-	"github.com/AirouTUS/shinkan-server/internal/app/output"
-	"github.com/AirouTUS/shinkan-server/internal/database"
+	"github.com/AirouTUS/shinkan-server/pkg/app/output"
+	"github.com/AirouTUS/shinkan-server/pkg/database"
 	"github.com/labstack/echo/v4"
 )
 
