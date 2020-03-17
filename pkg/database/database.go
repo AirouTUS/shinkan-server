@@ -142,7 +142,7 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						%s.id
 				ASC`,
 				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes,
-				strings.Join(valueStrings, ","), tableCircles), valueArgs...)
+				strings.Join(valueStrings, " OR "), tableCircles), valueArgs...)
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
