@@ -18,10 +18,6 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-    - name: MySQL setup
-      run: |
-        mysql --host 127.0.0.1 --port 3306 -uroot -proot < ./db/init/test_ddl.sql
-        mysql --host 127.0.0.1 --port 3306 -uroot -proot < ./db/init/test_dml.sql
     - name: Test
-      run: go test -cover ./...
+      run: make test
 
