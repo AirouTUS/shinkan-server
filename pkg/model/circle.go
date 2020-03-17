@@ -10,6 +10,7 @@ type Circle struct {
 	Email       string
 	Twitter     string
 	URL         string
+	EyeCatch    string
 	TypeID      *int
 	TypeName    *string
 }

@@ -42,6 +42,7 @@ type Circle struct {
 	Email       string  `db:"email"`
 	Twitter     string  `db:"twitter"`
 	URL         string  `db:"url"`
+	EyeCatch    string  `db:"eyecatch"`
 	TypeID      *int    `db:"type_id"`
 	TypeName    *string `db:"type_name"`
 }

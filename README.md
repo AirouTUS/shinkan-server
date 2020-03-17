@@ -9,7 +9,7 @@ API仕様書: [cmd/swagger.yaml](./cmd/swagger.yaml)
 ```
 $ export MYSQL_USER=root \
     MYSQL_PASSWORD=root \
-    MYSQL_HOST=127.0.0.1 \
+    MYSQL_HOST=shinkan_db \
     MYSQL_PORT=3306 \
     MYSQL_DATABASE=shinkan \
     SHINKAN_USER_NAME=hoge \

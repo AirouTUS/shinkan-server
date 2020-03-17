@@ -71,6 +71,7 @@ func (db *ShinkanDatabase) GetCircle(input GetCircleInput) ([]*model.Circle, err
 				circles.email,
 				circles.twitter,
 				circles.url,
+				circles.eyecatch,
 				circle_types.id AS type_id,
 				circle_types.name AS type_name
 			FROM 
@@ -124,6 +125,7 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						circles.email,
 						circles.twitter,
 						circles.url,
+						circles.eyecatch,
 						circle_types.id AS type_id,
 						circle_types.name AS type_name
 				FROM 
@@ -158,6 +160,7 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						circles.email,
 						circles.twitter,
 						circles.url,
+						circles.eyecatch,
 						circle_types.id AS type_id,
 						circle_types.name AS type_name
 				FROM 

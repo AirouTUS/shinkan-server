@@ -10,6 +10,7 @@ type Circle struct {
 	About       string
 	CatchCopy   string
 	Description string
+	EyeCatch    string
 	Images      []CircleImage
 	Types       []CircleType
 	Category    Category
@@ -44,9 +45,15 @@ func ParseCircles(circles []*model.Circle, categories []*model.Category) (result
 				About:       v.About,
 				CatchCopy:   v.CatchCopy,
 				Description: v.Description,
+				EyeCatch:    v.EyeCatch,
 				Category:    Category{ID: v.CategoryID},
 			}
 			circle.Types = make([]CircleType, 0)
+			cType := CircleType{
+				ID:   *v.TypeID,
+				Name: *v.TypeName,
+			}
+			circle.Types = append(circle.Types, cType)
 			b = v.ID
 		} else {
 			content := CircleType{

@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `shinkan`.`circles` (
   `email` VARCHAR(255) NULL,
   `twitter` VARCHAR(45) NULL,
   `url` VARCHAR(255) NULL,
+  `eyecatch` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_circle_circle_category_idx` (`circle_category_id` ASC),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC),

@@ -97,6 +97,10 @@ components:
         description:
           type: string
           description: サークル説明
+        eyecatch:
+          type: string
+          description: サークルアイキャッチ画像
+          example: "http://hogehoge.com/hoge.png"
         images:
           type: array
           items:
