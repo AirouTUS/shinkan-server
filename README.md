@@ -5,34 +5,23 @@ SwaggerEditor: <https://editor.swagger.io>
 API仕様書: [cmd/swagger.yaml](./cmd/swagger.yaml)
 
 ## Set up
-### 環境変数の設定
-```
-$ export MYSQL_USER=root \
-    MYSQL_PASSWORD=root \
-    MYSQL_HOST=shinkan_db \
-    MYSQL_PORT=3306 \
-    MYSQL_DATABASE=shinkan \
-    SHINKAN_USER_NAME=hoge \
-    SHINKAN_PASSWORD=hoge
-```
 
-### docker-composeの設定
 ```
 $ cp docker-compose.sample.yaml docker-compose.yaml
 ```
-
+portなどは各自で適当に設定してください
 ## Usage
 ### run
 ```
 $ make docker/run
 ```
 
-### seed
-```
-$ make docker/mysql/seed
-```
-
 ### down
 ```
 $ make docker/down
+```
+
+### test
+```
+$ make test
 ```
