@@ -20,6 +20,6 @@ type (
 
 type DBRepository interface {
 	ListCategory(input ListCategoryInput) ([]*model.Category, error)
-	GetCircle(input GetCircleInput) ([]*model.Circle, error)
+	GetCircle(input GetCircleInput) (*model.GetCircle, error)
 	ListCircle(input ListCircleInput) ([]*model.Circle, error)
 }

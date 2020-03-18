@@ -51,9 +51,6 @@ func (h *Handler) GetCircle(c echo.Context) error {
 		}
 		return APIResponseError(c, http.StatusInternalServerError, "Internal Server Error", err)
 	}
-	if len(circles) <= 0 {
-		return APIResponse(c, http.StatusNotFound, "サークルが存在しません")
-	}
 
 	return APIResponseOK(c, output.ToGetCircle(circles, Categories))
 }

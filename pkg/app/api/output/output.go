@@ -47,12 +47,7 @@ type CircleType struct {
 	Name string `json:"name"`
 }
 
-func ToGetCircle(circles []*model.Circle, categories []*model.Category) (result Circle) {
-	var circle model.Circle
-	if len(circles) > 0 {
-		circle = *circles[0]
-	}
-
+func ToGetCircle(circle *model.GetCircle, categories []*model.Category) (result Circle) {
 	result.ID = circle.ID
 	result.Name = circle.Name
 	result.About = circle.About
@@ -67,18 +62,22 @@ func ToGetCircle(circles []*model.Circle, categories []*model.Category) (result 
 		}
 	}
 
-	result.Types = make([]CircleType, 0, len(circles))
-	for _, v := range circles {
-		if v.TypeID != nil {
-			content := CircleType{
-				ID:   *v.TypeID,
-				Name: *v.TypeName,
-			}
-			result.Types = append(result.Types, content)
+	result.Types = make([]CircleType, 0, len(circle.Types))
+	for _, v := range circle.Types {
+		content := CircleType{
+			ID:   v.ID,
+			Name: v.Name,
 		}
+		result.Types = append(result.Types, content)
 	}
 
-	result.Images = make([]CircleImage, 0)
+	result.Images = make([]CircleImage, 0, len(circle.Images))
+	for _, v := range circle.Images {
+		content := CircleImage{
+			URL: v.URL,
+		}
+		result.Images = append(result.Images, content)
+	}
 	return
 }
 

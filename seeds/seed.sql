@@ -14,3 +14,10 @@ INSERT INTO `shinkan`.`circles_circle_types`
     ('9', '1'),
     ('1', '2'),
     ('8', '2');
+
+INSERT INTO `shinkan`.`circle_images`
+    (`url`, `circle_id`)
+    VALUES
+    ('https://hoge.com/hoge1.png', '1'),
+    ('https://hoge.com/hoge2.png', '1'),
+    ('https://hoge.com/hoge3.png', '2');

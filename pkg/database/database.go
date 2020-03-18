@@ -55,47 +55,42 @@ func (db *ShinkanDatabase) ListCategory(input ListCategoryInput) ([]*model.Categ
 	return m.category(), nil
 }
 
-func (db *ShinkanDatabase) GetCircle(input GetCircleInput) ([]*model.Circle, error) {
+func (db *ShinkanDatabase) GetCircle(input GetCircleInput) (*model.GetCircle, error) {
 	if err := input.validate(); err != nil {
 		return nil, errors.WithStack(err)
 	}
-	var m CircleList
-	_, err := db.Map.Select(&m, fmt.Sprintf(
-		`SELECT 
-				circles.id, 
-				circles.name, 
-				circles.about,
-				circles.catch_copy,
-				circles.description,
-				circles.circle_category_id,
-				circles.email,
-				circles.twitter,
-				circles.url,
-				circles.eyecatch,
-				circle_types.id AS type_id,
-				circle_types.name AS type_name
-			FROM 
-				%s 
-			LEFT JOIN 
-				%s
-			ON
-				%s.circle_id = %s.id
-			LEFT JOIN
-				%s
-			ON 
-				%s.circle_type_id = %s.id
-			WHERE 
-				%s.id = ?
-			ORDER BY
-				%s.id
-			ASC`,
-		tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCircles, tableCircles),
-		input.ID)
+
+	var m GetCircle
+	err := db.Map.SelectOne(&m, fmt.Sprintf("SELECT * FROM %s WHERE id = ?", tableCircles), input.ID)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	return m.circles(), nil
+	var ct []CircleType
+	_, err = db.Map.Select(&ct, fmt.Sprintf(
+		`SELECT 
+			%s.id,
+			%s.name
+		FROM 
+			%s 
+		JOIN
+			%s 
+		ON
+			%s.circle_type_id = %s.id
+		WHERE 
+			%s.circle_id = ?`,
+		tableCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes), input.ID)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	var ci []CircleImage
+	_, err = db.Map.Select(&ci, fmt.Sprintf("SELECT url FROM %s WHERE circle_id = ?", tableCircleImages), input.ID)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
+
+	return m.circle(ct, ci), nil
 }
 
 func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, error) {
