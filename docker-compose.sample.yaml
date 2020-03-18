@@ -8,7 +8,7 @@ services:
       dockerfile: cmd/Dockerfile
     ports:
       - 8080:8080
-    env_file: [./cmd/.env]
+    env_file: [./cmd/api/.env]
     container_name: shinkan-server
     networks:
       - services

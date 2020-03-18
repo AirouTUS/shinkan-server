@@ -1,0 +1,74 @@
+openapi: 3.0.2
+info:
+  title: Shinakan Admin API
+  description: |-
+    理科大新歓管理画面用のAPI
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+tags:
+  - name: circle
+    description: サークル関連API
+
+paths:
+  /circles:
+    post:
+      tags:
+        - circle
+      summary: サークル情報取得API
+      description: サークルの情報を取得します。
+      security:
+        - basicAuth: []
+      requestBody:
+        description: Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CirclePostRequest'
+        required: true
+      responses:
+        200:
+          description: success
+          content: {}
+components:
+  schemas:
+    CirclePostRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: サークル名
+          example: "airou"
+        about:
+          type: string
+          description: サークル概要
+          example: "プログラミング学習、教育"
+        catchCopy:
+          type: string
+          description: キャッチコピー
+        description:
+          type: string
+          description: サークル説明
+        eyecatch:
+          type: string
+          description: サークルアイキャッチ画像
+          example: ""
+        types:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+        category:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: サークルカテゴリーID
+              example: 3
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
