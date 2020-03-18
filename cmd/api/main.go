@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/AirouTUS/shinkan-server/pkg/app/handler"
+	"github.com/AirouTUS/shinkan-server/pkg/app/api/handler"
 
 	"github.com/AirouTUS/shinkan-server/pkg/database"
 	"github.com/labstack/echo/v4"

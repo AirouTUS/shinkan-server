@@ -6,7 +6,7 @@ RUN \
   mkdir -p $APPDIR
 ADD . $APPDIR/
 WORKDIR $APPDIR
-RUN go build --mod=vendor -ldflags "-s -w" -o shinkan-server cmd/main.go
+RUN go build --mod=vendor -ldflags "-s -w" -o shinkan-server cmd/admin/main.go
 RUN mv shinkan-server /
 
 FROM alpine
