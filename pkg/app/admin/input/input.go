@@ -1,20 +1,41 @@
 package input
 
-import "errors"
+import (
+	"errors"
+)
 
 var (
 	ErrInvalidRequest = errors.New("invalid request")
 )
 
-type ListCircleInput struct {
-	CategoryID []int `json:"categoryID"`
+type circleImage struct {
+	URL string `json:"url"`
 }
 
-func (i ListCircleInput) Validate() error {
-	for _, v := range i.CategoryID {
-		if v <= 0 {
-			return ErrInvalidRequest
-		}
+type circleType struct {
+	ID int `json:"id"`
+}
+
+type PostCircleInput struct {
+	Name        string        `json:"name"`
+	About       string        `json:"about"`
+	CatchCopy   string        `json:"catchCopy"`
+	Description string        `json:"description"`
+	EyeCatch    string        `json:"eyecatch"`
+	Email       string        `json:"email"`
+	Twitter     string        `json:"twitter"`
+	URL         string        `json:"url"`
+	Images      []circleImage `json:"images"`
+	Types       []circleType  `json:"types"`
+	CategoryID  int           `json:"category_id"`
+}
+
+func (i PostCircleInput) Validate() error {
+	if i.Name == "" {
+		return ErrInvalidRequest
+	}
+	if i.CategoryID <= 0 {
+		return ErrInvalidRequest
 	}
 	return nil
 }

@@ -24,6 +24,10 @@ docker/build/api:
 	@go mod vendor
 	docker build -t shinkan-server -f './cmd/api/Dockerfile' .
 
+docker/build/admin:
+	@go mod vendor
+	docker build -t shinkan-server:admin -f './cmd/admin/Dockerfile' .
+
 docker/run: mysql/init mysql/seed compose/up
 
 docker/down: compose/down mysql/down

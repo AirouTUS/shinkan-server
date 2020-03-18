@@ -101,3 +101,28 @@ func (m GetCircle) circle(ct []CircleType, ci []CircleImage) *model.GetCircle {
 	}
 	return &result
 }
+
+type PostCircle struct {
+	ID          int    `db:"id,primarykey,autoincrement"`
+	Name        string `db:"name"`
+	About       string `db:"about"`
+	CatchCopy   string `db:"catch_copy"`
+	Description string `db:"description"`
+	CategoryID  int    `db:"circle_category_id"`
+	Email       string `db:"email"`
+	Twitter     string `db:"twitter"`
+	URL         string `db:"url"`
+	EyeCatch    string `db:"eyecatch"`
+}
+
+type PostCirclesCircleTypes struct {
+	ID           int `db:"id,primarykey,autoincrement"`
+	CircleID     int `db:"circle_id"`
+	CircleTypeID int `db:"circle_type_id"`
+}
+
+type PostCircleImages struct {
+	ID       int    `db:"id,primarykey,autoincrement"`
+	URL      string `db:"url"`
+	CircleID int    `db:"circle_id"`
+}
