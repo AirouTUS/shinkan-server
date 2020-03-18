@@ -49,11 +49,13 @@ func ParseCircles(circles []*model.Circle, categories []*model.Category) (result
 				Category:    Category{ID: v.CategoryID},
 			}
 			circle.Types = make([]CircleType, 0)
-			cType := CircleType{
-				ID:   *v.TypeID,
-				Name: *v.TypeName,
+			if v.TypeID != nil {
+				cType := CircleType{
+					ID:   *v.TypeID,
+					Name: *v.TypeName,
+				}
+				circle.Types = append(circle.Types, cType)
 			}
-			circle.Types = append(circle.Types, cType)
 			b = v.ID
 		} else {
 			content := CircleType{

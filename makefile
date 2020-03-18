@@ -20,9 +20,9 @@ compose/up:
 compose/down:
 	docker-compose down
 
-docker/build:
+docker/build/api:
 	@go mod vendor
-	docker build -t shinkan-server -f './cmd/Dockerfile' .
+	docker build -t shinkan-server -f './cmd/api/Dockerfile' .
 
 docker/run: mysql/init mysql/seed compose/up
 
