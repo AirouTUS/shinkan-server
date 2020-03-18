@@ -69,11 +69,13 @@ func ToGetCircle(circles []*model.Circle, categories []*model.Category) (result 
 
 	result.Types = make([]CircleType, 0, len(circles))
 	for _, v := range circles {
-		content := CircleType{
-			ID:   *v.TypeID,
-			Name: *v.TypeName,
+		if v.TypeID != nil {
+			content := CircleType{
+				ID:   *v.TypeID,
+				Name: *v.TypeName,
+			}
+			result.Types = append(result.Types, content)
 		}
-		result.Types = append(result.Types, content)
 	}
 
 	result.Images = make([]CircleImage, 0)
