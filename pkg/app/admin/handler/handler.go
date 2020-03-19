@@ -2,17 +2,13 @@ package handler
 
 import (
 	"net/http"
-	"strconv"
-
-	"github.com/AirouTUS/shinkan-server/pkg/usecase"
 
 	"github.com/AirouTUS/shinkan-server/pkg/app/admin/input"
 
 	"github.com/AirouTUS/shinkan-server/pkg/model"
-
-	"github.com/AirouTUS/shinkan-server/pkg/app/api/output"
-	"github.com/AirouTUS/shinkan-server/pkg/database"
 	"github.com/labstack/echo/v4"
+
+	"github.com/AirouTUS/shinkan-server/pkg/database"
 )
 
 var (
@@ -31,35 +27,8 @@ func NewHandler(
 	}
 }
 
-func (h *Handler) ListCategory(c echo.Context) error {
-	return APIResponseOK(c, output.ToCategoryList(Categories))
-}
-
-func (h *Handler) GetCircle(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
-	}
-	if id <= 0 {
-		return APIResponse(c, http.StatusBadRequest, "Bad Request")
-	}
-
-	circles, err := h.dbRepository.GetCircle(database.GetCircleInput{ID: id})
-	if err != nil {
-		if err.Error() == database.ErrNotFound {
-			return APIResponse(c, http.StatusNotFound, "サークルが存在しません")
-		}
-		return APIResponseError(c, http.StatusInternalServerError, "Internal Server Error", err)
-	}
-	if len(circles) <= 0 {
-		return APIResponse(c, http.StatusNotFound, "サークルが存在しません")
-	}
-
-	return APIResponseOK(c, output.ToGetCircle(circles, Categories))
-}
-
-func (h *Handler) ListCircle(c echo.Context) error {
-	var param input.ListCircleInput
+func (h *Handler) PostCircle(c echo.Context) error {
+	var param input.PostCircleInput
 	if err := c.Bind(&param); err != nil {
 		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
 	}
@@ -67,20 +36,29 @@ func (h *Handler) ListCircle(c echo.Context) error {
 		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
 	}
 
-	input := database.ListCircleInput{
-		CategoryID: param.CategoryID,
+	input := database.PostCircleInput{
+		Name:        param.Name,
+		About:       param.About,
+		CatchCopy:   param.CatchCopy,
+		Description: param.Description,
+		EyeCatch:    param.EyeCatch,
+		Email:       param.Email,
+		Twitter:     param.Twitter,
+		URL:         param.URL,
+		CategoryID:  param.CategoryID,
 	}
-	circles, err := h.dbRepository.ListCircle(input)
+	input.Types = make([]database.InputCircleType, 0, len(param.Types))
+	for _, v := range param.Types {
+		input.Types = append(input.Types, database.InputCircleType(v))
+	}
+	input.Images = make([]database.InputCircleImage, 0, len(param.Images))
+	for _, v := range param.Images {
+		input.Images = append(input.Images, database.InputCircleImage(v))
+	}
+
+	err := h.dbRepository.PostCircle(input)
 	if err != nil {
-		if err.Error() == database.ErrNotFound {
-			return APIResponse(c, http.StatusNotFound, "サークルが存在しません")
-		}
 		return APIResponseError(c, http.StatusInternalServerError, "Internal Server Error", err)
 	}
-	if len(circles) <= 0 {
-		return APIResponse(c, http.StatusNotFound, "サークルが存在しません")
-	}
-	result := usecase.ParseCircles(circles, Categories)
-
-	return APIResponseOK(c, output.ToListCircle(result))
+	return APIResponse(c, http.StatusCreated, "")
 }

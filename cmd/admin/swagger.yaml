@@ -5,13 +5,13 @@ info:
     理科大新歓管理画面用のAPI
   version: 1.0.0
 servers:
-  - url: http://localhost:8080/
+  - url: http://localhost:8081/
 tags:
   - name: circle
     description: サークル関連API
 
 paths:
-  /circles:
+  /circle:
     post:
       tags:
         - circle
@@ -53,6 +53,19 @@ components:
           type: string
           description: サークルアイキャッチ画像
           example: ""
+        email:
+          type: string
+        twitter:
+          type: string
+        url:
+          type: string
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
         types:
           type: array
           items:
@@ -61,13 +74,9 @@ components:
               id:
                 type: integer
                 example: 1
-        category:
-          type: object
-          properties:
-            id:
-              type: integer
-              description: サークルカテゴリーID
-              example: 3
+        category_id:
+          type: string
+          example: 3
   securitySchemes:
     basicAuth:
       type: http

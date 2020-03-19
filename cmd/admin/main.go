@@ -30,9 +30,12 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 
-	e.GET("/healthcheck", func(c echo.Context) error {
-		return c.NoContent(http.StatusOK)
-	})
+	e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+		if username == os.Getenv("SHINKAN_USER_NAME") && password == os.Getenv("SHINKAN_PASSWORD") {
+			return true, nil
+		}
+		return false, nil
+	}))
 
 	dbRepo := database.NewDatabase(
 		os.Getenv("MYSQL_USER"),
@@ -40,18 +43,11 @@ func main() {
 		os.Getenv("MYSQL_HOST"),
 		os.Getenv("MYSQL_PORT"),
 		os.Getenv("MYSQL_DATABASE"))
-	apiHandler := handler.NewHandler(dbRepo)
+	adminHandler := handler.NewHandler(dbRepo)
 
-	basic_username := os.Getenv("SHINKAN_USER_NAME")
-	basic_password := os.Getenv("SHINAKN_PASSWORD")
-	m := e.Group("/admin", middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-		if username == basic_username && password == basic_password {
-			return true, nil
-		}
-		return false, nil
-	}))
-	m.POST("/circle", func(c echo.Context) error {
-		return c.NoContent(http.StatusCreated)
+	e.POST("/circle", adminHandler.PostCircle)
+	e.GET("/healthcheck", func(c echo.Context) error {
+		return c.NoContent(http.StatusOK)
 	})
 
 	e.Logger.Fatal(e.Start(*port))
