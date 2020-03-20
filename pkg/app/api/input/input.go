@@ -1,22 +1,33 @@
 package input
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+)
 
 var (
 	ErrInvalidRequest = errors.New("invalid request")
 )
 
 type ListCircleInput struct {
-	Start      int   `json:"start"`
-	End        int   `json:"end"`
-	CategoryID []int `json:"categoryID"`
+	Start      string `json:"start"`
+	End        string `json:"end"`
+	CategoryID []int  `json:"categoryID"`
 }
 
 func (i ListCircleInput) Validate() error {
-	if i.Start < 0 {
+	start, err := strconv.Atoi(i.Start)
+	if err != nil {
 		return ErrInvalidRequest
 	}
-	if i.End < 0 {
+	if start < -1 {
+		return ErrInvalidRequest
+	}
+	end, err := strconv.Atoi(i.End)
+	if err != nil {
+		return ErrInvalidRequest
+	}
+	if end < -1 {
 		return ErrInvalidRequest
 	}
 	for _, v := range i.CategoryID {

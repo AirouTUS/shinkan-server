@@ -1,6 +1,9 @@
 package output
 
 import (
+	"log"
+	"strconv"
+
 	"github.com/AirouTUS/shinkan-server/pkg/model"
 	"github.com/AirouTUS/shinkan-server/pkg/usecase"
 )
@@ -85,9 +88,22 @@ type CircleList struct {
 	Circles []Circle `json:"circles"`
 }
 
-func ToListCircle(start, end int, circles []*usecase.Circle) (result CircleList) {
+func ToListCircle(startStr, endStr string, circles []*usecase.Circle) (result CircleList) {
 	result.Circles = make([]Circle, 0, len(circles))
+
+	var start int
 	var sliceEnd int
+	const perPage = 10
+	start, err := strconv.Atoi(startStr)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	end, err := strconv.Atoi(endStr)
+	if err != nil {
+		log.Println(err)
+		return
+	}
 
 	if start >= len(circles) {
 		return
@@ -102,6 +118,13 @@ func ToListCircle(start, end int, circles []*usecase.Circle) (result CircleList)
 		sliceEnd = 1
 	}
 
+	if startStr == "-1" && endStr == "-1" {
+		start = 0
+		sliceEnd = perPage
+		if len(circles) < perPage {
+			sliceEnd = len(circles)
+		}
+	}
 	for _, v := range circles[start:sliceEnd] {
 		content := Circle{
 			ID:          v.ID,

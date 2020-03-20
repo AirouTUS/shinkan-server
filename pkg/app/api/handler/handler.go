@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/AirouTUS/shinkan-server/pkg/usecase"
+	"github.com/pkg/errors"
 
 	"github.com/AirouTUS/shinkan-server/pkg/app/api/input"
 
@@ -60,12 +61,23 @@ func (h *Handler) ListCircle(c echo.Context) error {
 	if err := c.Bind(&param); err != nil {
 		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
 	}
+	switch param.Start {
+	case "-1":
+		err := errors.New("invalid request")
+		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
+	case "":
+		param.Start = "-1"
+	}
+	switch param.End {
+	case "-1":
+		err := errors.New("invalid request")
+		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
+	case "":
+		param.End = "-1"
+	}
 	if err := param.Validate(); err != nil {
 		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
 	}
-
-	start := param.Start
-	end := param.End
 
 	input := database.ListCircleInput{
 		CategoryID: param.CategoryID,
@@ -82,5 +94,5 @@ func (h *Handler) ListCircle(c echo.Context) error {
 	}
 	result := usecase.ParseCircles(circles, Categories)
 
-	return APIResponseOK(c, output.ToListCircle(start, end, result))
+	return APIResponseOK(c, output.ToListCircle(param.Start, param.End, result))
 }
