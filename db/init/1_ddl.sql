@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `shinkan`.`circles` (
   `name` VARCHAR(45) NULL,
   `about` VARCHAR(45) NULL,
   `catch_copy` VARCHAR(45) NULL,
-  `description` VARCHAR(255) NULL,
+  `description` VARCHAR(1000) NULL,
   `circle_category_id` INT NOT NULL,
   `email` VARCHAR(255) NULL,
   `twitter` VARCHAR(45) NULL,
