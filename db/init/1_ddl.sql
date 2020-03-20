@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `shinkan`.`circles` (
   `email` VARCHAR(255) NULL,
   `twitter` VARCHAR(45) NULL,
   `url` VARCHAR(255) NULL,
-  `eyecatch` VARCHAR(255) NULL,
+  `eyecatch` VARCHAR(10000) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_circle_circle_category_idx` (`circle_category_id` ASC),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC),
@@ -61,7 +61,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `shinkan`.`circle_images` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `url` VARCHAR(45) NOT NULL,
+  `url` VARCHAR(10000) NOT NULL,
   `circle_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_circle_image_circle1_idx` (`circle_id` ASC),

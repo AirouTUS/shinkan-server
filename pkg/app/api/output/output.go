@@ -85,9 +85,24 @@ type CircleList struct {
 	Circles []Circle `json:"circles"`
 }
 
-func ToListCircle(circles []*usecase.Circle) (result CircleList) {
+func ToListCircle(start, end int, circles []*usecase.Circle) (result CircleList) {
 	result.Circles = make([]Circle, 0, len(circles))
-	for _, v := range circles {
+	var sliceEnd int
+
+	if start >= len(circles) {
+		return
+	}
+
+	if end == 0 || end >= len(circles) {
+		sliceEnd = len(circles)
+	} else {
+		sliceEnd = end + 1
+	}
+	if start == 0 && end == 0 {
+		sliceEnd = 1
+	}
+
+	for _, v := range circles[start:sliceEnd] {
 		content := Circle{
 			ID:          v.ID,
 			Name:        v.Name,

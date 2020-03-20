@@ -64,6 +64,9 @@ func (h *Handler) ListCircle(c echo.Context) error {
 		return APIResponseError(c, http.StatusBadRequest, "Bad Request", err)
 	}
 
+	start := param.Start
+	end := param.End
+
 	input := database.ListCircleInput{
 		CategoryID: param.CategoryID,
 	}
@@ -79,5 +82,5 @@ func (h *Handler) ListCircle(c echo.Context) error {
 	}
 	result := usecase.ParseCircles(circles, Categories)
 
-	return APIResponseOK(c, output.ToListCircle(result))
+	return APIResponseOK(c, output.ToListCircle(start, end, result))
 }

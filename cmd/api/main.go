@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/AirouTUS/shinkan-server/pkg/app/api/handler"
-
 	"github.com/AirouTUS/shinkan-server/pkg/database"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -24,6 +23,9 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
+		Skipper: func(c echo.Context) bool {
+			return c.Request().Method == echo.OPTIONS
+		},
 	}))
 	e.HidePort = true
 	e.HideBanner = true
@@ -53,18 +55,6 @@ func main() {
 	e.GET("/circles/:id", apiHandler.GetCircle)
 	e.GET("/circles", apiHandler.ListCircle)
 
-	basic_username := os.Getenv("SHINKAN_USER_NAME")
-	basic_password := os.Getenv("SHINAKN_PASSWORD")
-	m := e.Group("/admin", middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-		if username == basic_username && password == basic_password {
-			return true, nil
-		}
-		return false, nil
-	}))
-	m.POST("/circle", func(c echo.Context) error {
-		return c.NoContent(http.StatusCreated)
-	})
-
 	e.Logger.Fatal(e.Start(*port))
 }
 
@@ -84,12 +74,6 @@ func checkEnv() {
 		os.Exit(1)
 	case os.Getenv("MYSQL_DATABASE"):
 		log.Println("MYSQL_DATABASE is undefined")
-		os.Exit(1)
-	case os.Getenv("SHINKAN_USER_NAME"):
-		log.Println("SHINKAN_USER_NAME is undefined")
-		os.Exit(1)
-	case os.Getenv("SHINKAN_PASSWORD"):
-		log.Println("SHINKAN_PASSWORD is undefined")
 		os.Exit(1)
 	}
 }

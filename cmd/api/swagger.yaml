@@ -47,9 +47,19 @@ paths:
     get:
       tags:
         - circle
-      summary: サークル一覧取得APi
+      summary: サークル一覧取得API
       description: パラメータがない場合は全サークル情報を返します
       parameters:
+        - name: start
+          in: query
+          description: start
+          schema:
+            type: integer
+        - name: end
+          in: query
+          description: end
+          schema:
+            type: integer
         - name: categoryID
           in: query
           description: カテゴリーID
