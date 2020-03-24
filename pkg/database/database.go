@@ -136,10 +136,12 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 				WHERE 
 						%s
 				ORDER BY
-						%s.id
+						%s.updated_at
+				DESC,
+						%s.name
 				ASC`,
 				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes,
-				strings.Join(valueStrings, " OR "), tableCircles), valueArgs...)
+				strings.Join(valueStrings, " OR "), tableCircles, tableCircles), valueArgs...)
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
@@ -169,9 +171,11 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 				ON 
 						%s.circle_type_id = %s.id
 				ORDER BY
-						%s.id
+						%s.updated_at
+				DESC,
+						%s.name
 				ASC`,
-				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCircles))
+				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCircles, tableCircles))
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}

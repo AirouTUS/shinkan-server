@@ -10,6 +10,7 @@ services:
       - shinkan_network
     volumes:
       - ./init:/docker-entrypoint-initdb.d
+      - ./test:/test
       - ./data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "root"

@@ -35,8 +35,8 @@ docker/down: compose/down mysql/down
 test/init: mysql/init
 	-@printf '\033[32m%s\033[m\n' '----- run test ---------'
 	@docker exec -it $(DB_CONTAINER) bin/bash -c \
-	'mysql -u root --password="$(DB_PASSWORD)" < $(DB_ENTRY)/test_ddl.sql;\
-	mysql -u root --password="$(MYSQL_PASSWORD)" < $(DB_ENTRY)/test_dml.sql'\
+	'mysql -u root --password="$(DB_PASSWORD)" < /test/test_ddl.sql;\
+	mysql -u root --password="$(MYSQL_PASSWORD)" < /test/test_dml.sql'\
 	> /dev/null
 
 test/down:

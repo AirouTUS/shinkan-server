@@ -60,6 +60,7 @@ type GetCircle struct {
 	Twitter     string `db:"twitter"`
 	URL         string `db:"url"`
 	EyeCatch    string `db:"eyecatch"`
+	UpdatedAt   string `db:"updated_at"`
 }
 
 type CircleType struct {
