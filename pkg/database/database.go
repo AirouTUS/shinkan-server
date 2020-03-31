@@ -61,7 +61,27 @@ func (db *ShinkanDatabase) GetCircle(input GetCircleInput) (*model.GetCircle, er
 	}
 
 	var m GetCircle
-	err := db.Map.SelectOne(&m, fmt.Sprintf("SELECT * FROM %s WHERE id = ?", tableCircles), input.ID)
+	err := db.Map.SelectOne(&m, fmt.Sprintf(
+		`SELECT 
+			id,
+			name,
+			about,
+			catch_copy,
+			cost,
+			location,
+			work_time,
+			members_number,
+			description,
+			circle_category_id,
+			email,
+			twitter,
+			url,
+			eyecatch
+		FROM 
+			%s 
+		WHERE 
+			id = ?`,
+		tableCircles), input.ID)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -115,6 +135,10 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						circles.name, 
 						circles.about,
 						circles.catch_copy,
+						circles.cost,
+						circles.location,
+						circles.work_time,
+						circles.members_number,
 						circles.description,
 						circles.circle_category_id,
 						circles.email,
@@ -152,6 +176,10 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						circles.name, 
 						circles.about,
 						circles.catch_copy,
+						circles.cost,
+						circles.location,
+						circles.work_time,
+						circles.members_number,
 						circles.description,
 						circles.circle_category_id,
 						circles.email,

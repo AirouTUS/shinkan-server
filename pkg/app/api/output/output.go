@@ -30,18 +30,22 @@ func ToCategoryList(categories []*model.Category) (result CategoryList) {
 }
 
 type Circle struct {
-	ID          int           `json:"id"`
-	Name        string        `json:"name"`
-	About       string        `json:"about"`
-	CatchCopy   string        `json:"catchCopy"`
-	Description string        `json:"description"`
-	EyeCatch    string        `json:"eyecatch"`
-	Twitter     string        `json:"twitter"`
-	Email       string        `json:"email"`
-	URL         string        `json:"url"`
-	Images      []CircleImage `json:"images"`
-	Types       []CircleType  `json:"types"`
-	Category    Category      `json:"category"`
+	ID            int           `json:"id"`
+	Name          string        `json:"name"`
+	About         string        `json:"about"`
+	CatchCopy     string        `json:"catchCopy"`
+	MembersNumber string        `json:"members_number"`
+	WorkTime      string        `json:"workTime"`
+	Location      string        `json:"location"`
+	Cost          string        `json:"cost"`
+	Description   string        `json:"description"`
+	EyeCatch      string        `json:"eyecatch"`
+	Twitter       string        `json:"twitter"`
+	Email         string        `json:"email"`
+	URL           string        `json:"url"`
+	Images        []CircleImage `json:"images"`
+	Types         []CircleType  `json:"types"`
+	Category      Category      `json:"category"`
 }
 
 type CircleImage struct {
@@ -63,6 +67,19 @@ func ToGetCircle(circle *model.GetCircle, categories []*model.Category) (result 
 	result.Twitter = circle.Twitter
 	result.Email = circle.Email
 	result.URL = circle.URL
+
+	if circle.MembersNumber != nil {
+		result.MembersNumber = *circle.MembersNumber
+	}
+	if circle.WorkTime != nil {
+		result.WorkTime = *circle.WorkTime
+	}
+	if circle.Location != nil {
+		result.Location = *circle.Location
+	}
+	if circle.Cost != nil {
+		result.Cost = *circle.Cost
+	}
 
 	for _, v := range categories {
 		if v.ID == circle.CategoryID {
@@ -143,6 +160,18 @@ func ToListCircle(startStr, endStr string, circles []*usecase.Circle) (result Ci
 			URL:         v.URL,
 			Description: v.Description,
 			Category:    Category(v.Category),
+		}
+		if v.MembersNumber != nil {
+			content.MembersNumber = *v.MembersNumber
+		}
+		if v.WorkTime != nil {
+			content.WorkTime = *v.WorkTime
+		}
+		if v.Location != nil {
+			content.Location = *v.Location
+		}
+		if v.Cost != nil {
+			content.Cost = *v.Cost
 		}
 		content.Types = make([]CircleType, 0, len(v.Types))
 		for _, vv := range v.Types {

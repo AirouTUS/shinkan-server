@@ -104,6 +104,18 @@ components:
         catchCopy:
           type: string
           description: キャッチコピー
+        members_number:
+          type: string
+          description: 部員数
+        workTime:
+          type: string
+          description: 活動時間
+        location:
+          type: string
+          description: 活動場所
+        cost:
+          type: string
+          description: 部費
         description:
           type: string
           description: サークル説明

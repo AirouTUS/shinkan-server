@@ -5,18 +5,22 @@ import (
 )
 
 type Circle struct {
-	ID          int
-	Name        string
-	About       string
-	CatchCopy   string
-	Description string
-	EyeCatch    string
-	Twitter     string
-	Email       string
-	URL         string
-	Images      []CircleImage
-	Types       []CircleType
-	Category    Category
+	ID            int
+	Name          string
+	About         string
+	CatchCopy     string
+	Cost          *string
+	Location      *string
+	WorkTime      *string
+	MembersNumber *string
+	Description   string
+	EyeCatch      string
+	Twitter       string
+	Email         string
+	URL           string
+	Images        []CircleImage
+	Types         []CircleType
+	Category      Category
 }
 
 type CircleImage struct {
@@ -43,16 +47,20 @@ func ParseCircles(circles []*model.Circle, categories []*model.Category) (result
 				result = append(result, &cc)
 			}
 			circle = Circle{
-				ID:          v.ID,
-				Name:        v.Name,
-				About:       v.About,
-				CatchCopy:   v.CatchCopy,
-				Description: v.Description,
-				EyeCatch:    v.EyeCatch,
-				Twitter:     v.Twitter,
-				Email:       v.Email,
-				URL:         v.URL,
-				Category:    Category{ID: v.CategoryID},
+				ID:            v.ID,
+				Name:          v.Name,
+				About:         v.About,
+				CatchCopy:     v.CatchCopy,
+				Cost:          v.Cost,
+				Location:      v.Location,
+				WorkTime:      v.WorkTime,
+				MembersNumber: v.MembersNumber,
+				Description:   v.Description,
+				EyeCatch:      v.EyeCatch,
+				Twitter:       v.Twitter,
+				Email:         v.Email,
+				URL:           v.URL,
+				Category:      Category{ID: v.CategoryID},
 			}
 			circle.Types = make([]CircleType, 0)
 			if v.TypeID != nil {
