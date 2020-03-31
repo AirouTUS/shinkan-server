@@ -36,6 +36,9 @@ type Circle struct {
 	CatchCopy   string        `json:"catchCopy"`
 	Description string        `json:"description"`
 	EyeCatch    string        `json:"eyecatch"`
+	Twitter     string        `json:"twitter"`
+	Email       string        `json:"email"`
+	URL         string        `json:"url"`
 	Images      []CircleImage `json:"images"`
 	Types       []CircleType  `json:"types"`
 	Category    Category      `json:"category"`
@@ -57,6 +60,9 @@ func ToGetCircle(circle *model.GetCircle, categories []*model.Category) (result 
 	result.CatchCopy = circle.CatchCopy
 	result.Description = circle.Description
 	result.EyeCatch = circle.EyeCatch
+	result.Twitter = circle.Twitter
+	result.Email = circle.Email
+	result.URL = circle.URL
 
 	for _, v := range categories {
 		if v.ID == circle.CategoryID {
@@ -132,6 +138,9 @@ func ToListCircle(startStr, endStr string, circles []*usecase.Circle) (result Ci
 			About:       v.About,
 			CatchCopy:   v.CatchCopy,
 			EyeCatch:    v.EyeCatch,
+			Twitter:     v.Twitter,
+			Email:       v.Email,
+			URL:         v.URL,
 			Description: v.Description,
 			Category:    Category(v.Category),
 		}

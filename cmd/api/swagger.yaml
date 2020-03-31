@@ -111,6 +111,17 @@ components:
           type: string
           description: サークルアイキャッチ画像
           example: "http://hogehoge.com/hoge.png"
+        twitter:
+          type: string
+          description: ツイッターID
+          example: "airou_tus"
+        email:
+          type: string
+          format: email
+        url:
+          type: string
+          description: サークル関連URL
+          example: "https://airou.work"
         images:
           type: array
           items:

@@ -2,7 +2,7 @@
 東京理科大学Web新歓用APIのレポジトリです
 
 SwaggerEditor: <https://editor.swagger.io>  
-API仕様書: [cmd/swagger.yaml](./cmd/swagger.yaml)
+API仕様書: [cmd/api/swagger.yaml](./cmd/api/swagger.yaml)
 
 ## Set up
 
