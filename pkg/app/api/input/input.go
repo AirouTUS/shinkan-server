@@ -10,9 +10,10 @@ var (
 )
 
 type ListCircleInput struct {
-	Start      string `json:"start"`
-	End        string `json:"end"`
-	CategoryID []int  `json:"categoryID"`
+	Start      string `query:"start"`
+	End        string `query:"end"`
+	CategoryID []int  `query:"categoryID"`
+	Q          string `query:"q"`
 }
 
 func (i ListCircleInput) Validate() error {

@@ -67,6 +67,11 @@ paths:
             type: array
             items:
               type: integer
+        - name: q
+          in: query
+          description: 検索用クエリ
+          schema:
+            type: string
       responses:
         200:
           description: success
