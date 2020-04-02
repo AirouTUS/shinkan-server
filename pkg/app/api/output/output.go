@@ -111,7 +111,7 @@ type CircleList struct {
 	Circles []Circle `json:"circles"`
 }
 
-func ToListCircle(startStr, endStr string, circles []*usecase.Circle) (result CircleList) {
+func ToListCircle(startStr, endStr string, circles usecase.CircleList) (result CircleList) {
 	result.Circles = make([]Circle, 0, len(circles))
 
 	var start int

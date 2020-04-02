@@ -1,8 +1,13 @@
 package usecase
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/AirouTUS/shinkan-server/pkg/model"
 )
+
+type CircleList []Circle
 
 type Circle struct {
 	ID            int
@@ -37,14 +42,14 @@ type Category struct {
 	Name string
 }
 
-func ParseCircles(circles []*model.Circle, categories []*model.Category) (result []*Circle) {
+func ParseCircles(circles []*model.Circle, categories []*model.Category, q string) (result CircleList) {
 	var circle Circle
 	b := 0
 	for _, v := range circles {
 		if b != v.ID {
 			if b != 0 {
 				cc := circle
-				result = append(result, &cc)
+				result = append(result, cc)
 			}
 			circle = Circle{
 				ID:            v.ID,
@@ -79,7 +84,7 @@ func ParseCircles(circles []*model.Circle, categories []*model.Category) (result
 			circle.Types = append(circle.Types, content)
 		}
 	}
-	result = append(result, &circle)
+	result = append(result, circle)
 
 	for i, v := range result {
 		for _, vv := range categories {
@@ -88,5 +93,44 @@ func ParseCircles(circles []*model.Circle, categories []*model.Category) (result
 			}
 		}
 	}
-	return
+
+	return result.search(q)
+}
+
+func (c CircleList) search(q string) (result CircleList) {
+	query := strings.Split(q, " ")
+
+	for _, v := range query {
+		if v == "" {
+			continue
+		}
+		unmatches := make([]int, 0)
+		for i, vv := range c {
+			flag := false
+			if strings.Contains(vv.Name, v) {
+				flag = true
+			}
+			if strings.Contains(vv.About, v) {
+				flag = true
+			}
+			if strings.Contains(vv.Description, v) {
+				flag = true
+			}
+			for _, vvv := range vv.Types {
+				if strings.Contains(vvv.Name, v) {
+					flag = true
+				}
+			}
+			if !flag {
+				unmatches = append(unmatches, i)
+			}
+		}
+
+		for i, j := range unmatches {
+			k := j - i
+			c = append(c[:k], c[k+1:]...)
+		}
+		fmt.Println(unmatches)
+	}
+	return c
 }

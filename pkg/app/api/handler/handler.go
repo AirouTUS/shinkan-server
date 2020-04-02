@@ -92,7 +92,8 @@ func (h *Handler) ListCircle(c echo.Context) error {
 	if len(circles) <= 0 {
 		return APIResponse(c, http.StatusNotFound, "サークルが存在しません")
 	}
-	result := usecase.ParseCircles(circles, Categories)
+
+	result := usecase.ParseCircles(circles, Categories, param.Q)
 
 	return APIResponseOK(c, output.ToListCircle(param.Start, param.End, result))
 }

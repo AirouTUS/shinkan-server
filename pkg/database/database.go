@@ -98,8 +98,11 @@ func (db *ShinkanDatabase) GetCircle(input GetCircleInput) (*model.GetCircle, er
 		ON
 			%s.circle_type_id = %s.id
 		WHERE 
-			%s.circle_id = ?`,
-		tableCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes), input.ID)
+			%s.circle_id = ?
+		ORDER BY
+			%s.id
+		ASC`,
+		tableCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes), input.ID)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
@@ -163,9 +166,11 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						%s.updated_at
 				DESC,
 						%s.name
+				ASC,
+						%s.id
 				ASC`,
 				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes,
-				strings.Join(valueStrings, " OR "), tableCircles, tableCircles), valueArgs...)
+				strings.Join(valueStrings, " OR "), tableCircles, tableCircles, tableCircleTypes), valueArgs...)
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
@@ -202,8 +207,10 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						%s.updated_at
 				DESC,
 						%s.name
+				ASC,
+						%s.id
 				ASC`,
-				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCircles, tableCircles))
+				tableCircles, tableCirclesCircleTypes, tableCirclesCircleTypes, tableCircles, tableCircleTypes, tableCirclesCircleTypes, tableCircleTypes, tableCircles, tableCircles, tableCircleTypes))
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
