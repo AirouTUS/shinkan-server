@@ -76,7 +76,8 @@ func (db *ShinkanDatabase) GetCircle(input GetCircleInput) (*model.GetCircle, er
 			email,
 			twitter,
 			url,
-			eyecatch
+			eyecatch,
+			updated_at
 		FROM 
 			%s 
 		WHERE 
@@ -149,7 +150,8 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						circles.url,
 						circles.eyecatch,
 						circle_types.id AS type_id,
-						circle_types.name AS type_name
+						circle_types.name AS type_name,
+						circles.updated_at
 				FROM 
 						%s 
 				LEFT JOIN 
@@ -192,7 +194,8 @@ func (db *ShinkanDatabase) ListCircle(input ListCircleInput) ([]*model.Circle, e
 						circles.url,
 						circles.eyecatch,
 						circle_types.id AS type_id,
-						circle_types.name AS type_name
+						circle_types.name AS type_name,
+						circles.updated_at
 				FROM 
 						%s 
 				LEFT JOIN 

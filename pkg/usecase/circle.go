@@ -26,6 +26,7 @@ type Circle struct {
 	Images        []CircleImage
 	Types         []CircleType
 	Category      Category
+	UpdatedAt     string
 }
 
 type CircleImage struct {
@@ -66,6 +67,7 @@ func ParseCircles(circles []*model.Circle, categories []*model.Category, q strin
 				Email:         v.Email,
 				URL:           v.URL,
 				Category:      Category{ID: v.CategoryID},
+				UpdatedAt:     v.UpdatedAt,
 			}
 			circle.Types = make([]CircleType, 0)
 			if v.TypeID != nil {

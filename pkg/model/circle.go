@@ -17,6 +17,7 @@ type Circle struct {
 	EyeCatch      string
 	TypeID        *int
 	TypeName      *string
+	UpdatedAt     string
 }
 
 type GetCircle struct {
@@ -36,6 +37,7 @@ type GetCircle struct {
 	EyeCatch      string
 	Types         []CircleType
 	Images        []CircleImages
+	UpdatedAt     string
 }
 
 type CircleType struct {
