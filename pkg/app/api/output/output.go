@@ -46,6 +46,7 @@ type Circle struct {
 	Images        []CircleImage `json:"images"`
 	Types         []CircleType  `json:"types"`
 	Category      Category      `json:"category"`
+	UpdatedAt     string        `json:"updated_at"`
 }
 
 type CircleImage struct {
@@ -67,6 +68,7 @@ func ToGetCircle(circle *model.GetCircle, categories []*model.Category) (result 
 	result.Twitter = circle.Twitter
 	result.Email = circle.Email
 	result.URL = circle.URL
+	result.UpdatedAt = circle.UpdatedAt
 
 	if circle.MembersNumber != nil {
 		result.MembersNumber = *circle.MembersNumber
@@ -160,6 +162,7 @@ func ToListCircle(startStr, endStr string, circles usecase.CircleList) (result C
 			URL:         v.URL,
 			Description: v.Description,
 			Category:    Category(v.Category),
+			UpdatedAt:   v.UpdatedAt,
 		}
 		if v.MembersNumber != nil {
 			content.MembersNumber = *v.MembersNumber

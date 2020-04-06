@@ -169,6 +169,9 @@ components:
               type: string
               description: サークルカテゴリー名
               example: "文化系"
+        updated_at:
+          type: string
+          format: 'date-time'
     CircleListResponse:
       type: object
       properties:

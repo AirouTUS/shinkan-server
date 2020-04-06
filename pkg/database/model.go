@@ -51,6 +51,7 @@ type Circle struct {
 	EyeCatch      string  `db:"eyecatch"`
 	TypeID        *int    `db:"type_id"`
 	TypeName      *string `db:"type_name"`
+	UpdatedAt     string  `db:"updated_at"`
 }
 
 type GetCircle struct {
@@ -96,6 +97,7 @@ func (m GetCircle) circle(ct []CircleType, ci []CircleImage) *model.GetCircle {
 	result.Location = m.Location
 	result.WorkTime = m.WorkTime
 	result.MembersNumber = m.MembersNumber
+	result.UpdatedAt = m.UpdatedAt
 
 	result.Types = make([]model.CircleType, 0, len(ct))
 	result.Images = make([]model.CircleImages, 0, len(ci))
