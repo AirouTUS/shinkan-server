@@ -33,7 +33,7 @@ docker/run: mysql/init mysql/seed compose/up
 docker/down: compose/down mysql/down
 
 test/init: mysql/init
-	@docker exec -it $(DB_CONTAINER) bin/bash -c \
+	-@docker exec -it $(DB_CONTAINER) bin/bash -c \
 	'mysql -u root --password="$(DB_PASSWORD)" < /test/test_ddl.sql;\
 	mysql -u root --password="$(DB_PASSWORD)" < /test/test_dml.sql'\
 	> /dev/null
