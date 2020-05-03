@@ -4,8 +4,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/AirouTUS/shinkan-server/pkg/model"
-	"github.com/AirouTUS/shinkan-server/pkg/usecase"
+	"github.com/AirouTUS/shinkan-server/internal/model"
+	"github.com/AirouTUS/shinkan-server/internal/usecase"
 )
 
 type CategoryList struct {

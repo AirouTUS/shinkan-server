@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/AirouTUS/shinkan-server/pkg/model"
+	"github.com/AirouTUS/shinkan-server/internal/model"
 )
 
 type CircleList []Circle

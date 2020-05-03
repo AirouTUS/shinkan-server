@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/AirouTUS/shinkan-server/pkg/model"
+	"github.com/AirouTUS/shinkan-server/internal/model"
 )
 
 type CategoryList []Category

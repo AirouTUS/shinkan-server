@@ -5,8 +5,8 @@
 package mocks
 
 import (
-	database "github.com/AirouTUS/shinkan-server/pkg/database"
-	model "github.com/AirouTUS/shinkan-server/pkg/model"
+	database "github.com/AirouTUS/shinkan-server/internal/database"
+	model "github.com/AirouTUS/shinkan-server/internal/model"
 	gomock "github.com/golang/mock/gomock"
 	reflect "reflect"
 )

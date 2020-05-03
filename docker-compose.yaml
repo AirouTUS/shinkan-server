@@ -1,0 +1,26 @@
+---
+version: "3.7"
+services:
+  shinkan-server:
+    build:
+      context: .
+    container_name: shinkan-server
+    env_file: 
+      - .env
+    ports:
+      - 8080:8080
+    depends_on:
+      - shinkan-db
+
+  shinkan-db:
+    image: mysql:5.7
+    container_name: shinkan-db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+    volumes:
+      - ./seeds/init:/docker-entrypoint-initdb.d
+      - ./seeds/test:/test
+      - ./data/mysql:/var/lib/mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci

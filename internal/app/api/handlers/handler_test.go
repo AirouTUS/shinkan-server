@@ -7,14 +7,14 @@ import (
 	"os"
 	"testing"
 
-	"github.com/AirouTUS/shinkan-server/pkg/app/api/output"
-	"github.com/AirouTUS/shinkan-server/pkg/database"
-	"github.com/AirouTUS/shinkan-server/pkg/database/mocks"
+	"github.com/AirouTUS/shinkan-server/internal/app/api/output"
+	"github.com/AirouTUS/shinkan-server/internal/database"
+	"github.com/AirouTUS/shinkan-server/internal/database/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/AirouTUS/shinkan-server/pkg/model"
+	"github.com/AirouTUS/shinkan-server/internal/model"
 )
 
 var (

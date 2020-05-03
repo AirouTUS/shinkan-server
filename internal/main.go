@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/AirouTUS/shinkan-server/pkg/app/admin/handler"
-
-	"github.com/AirouTUS/shinkan-server/pkg/database"
+	"github.com/AirouTUS/shinkan-server/internal/app/api/handlers"
+	"github.com/AirouTUS/shinkan-server/internal/database"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -24,18 +23,18 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
+		Skipper: func(c echo.Context) bool {
+			return c.Request().Method == echo.OPTIONS
+		},
 	}))
 	e.HidePort = true
 	e.HideBanner = true
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 
-	e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-		if username == os.Getenv("SHINKAN_USER_NAME") && password == os.Getenv("SHINKAN_PASSWORD") {
-			return true, nil
-		}
-		return false, nil
-	}))
+	e.GET("/healthcheck", func(c echo.Context) error {
+		return c.String(http.StatusOK, "ok")
+	})
 
 	dbRepo := database.NewDatabase(
 		os.Getenv("MYSQL_USER"),
@@ -43,12 +42,18 @@ func main() {
 		os.Getenv("MYSQL_HOST"),
 		os.Getenv("MYSQL_PORT"),
 		os.Getenv("MYSQL_DATABASE"))
-	adminHandler := handler.NewHandler(dbRepo)
+	apiHandler := handler.NewHandler(dbRepo)
 
-	e.POST("/circle", adminHandler.PostCircle)
-	e.GET("/healthcheck", func(c echo.Context) error {
-		return c.NoContent(http.StatusOK)
-	})
+	var err error
+	handler.Categories, err = dbRepo.ListCategory(database.ListCategoryInput{})
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+
+	e.GET("/categories", apiHandler.ListCategory)
+	e.GET("/circles/:id", apiHandler.GetCircle)
+	e.GET("/circles", apiHandler.ListCircle)
 
 	e.Logger.Fatal(e.Start(*port))
 }
@@ -69,12 +74,6 @@ func checkEnv() {
 		os.Exit(1)
 	case os.Getenv("MYSQL_DATABASE"):
 		log.Println("MYSQL_DATABASE is undefined")
-		os.Exit(1)
-	case os.Getenv("SHINKAN_USER_NAME"):
-		log.Println("SHINKAN_USER_NAME is undefined")
-		os.Exit(1)
-	case os.Getenv("SHINKAN_PASSWORD"):
-		log.Println("SHINKAN_PASSWORD is undefined")
 		os.Exit(1)
 	}
 }
