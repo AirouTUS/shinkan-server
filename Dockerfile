@@ -15,7 +15,7 @@ COPY . .
 
 RUN go mod download
 RUN go mod verify
-RUN go build -ldflags "-s -w" -o shinkan-server internal/main.go
+RUN go build -ldflags "-s -w" -o shinkan-server cmd/service/main.go
 
 # Run container
 FROM alpine:latest
