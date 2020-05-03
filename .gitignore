@@ -2,6 +2,7 @@
 .idea
 
 # config files
-docker-compose.yaml
-db/data
+data
 vendor
+
+.vscode
