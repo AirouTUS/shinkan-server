@@ -5,7 +5,7 @@ services:
     image: shinkan-server
     build:
       context: .
-      dockerfile: cmd/Dockerfile
+      dockerfile: cmd/api/Dockerfile
     ports:
       - 8080:8080
     env_file: [./cmd/api/.env]
