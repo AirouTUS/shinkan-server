@@ -1,27 +1,17 @@
-## Shinkan server
+# Shinkan server
+
 東京理科大学Web新歓用APIのレポジトリです
 
 SwaggerEditor: <https://editor.swagger.io>  
-API仕様書: [cmd/api/swagger.yaml](./cmd/api/swagger.yaml)
+API仕様書: [api/swagger-spec/swagger-v1.yaml](./api/swagger-spec/swagger-v1.yaml)
 
-## Set up
+## How to run
 
-```
-$ cp docker-compose.sample.yaml docker-compose.yaml
-```
-portなどは各自で適当に設定してください
-## Usage
-### run
-```
-$ make docker/run
+```sh
+> docker-compose up -d
 ```
 
-### down
-```
-$ make docker/down
-```
+here are two containers
 
-### test
-```
-$ make test
-```
+- Mysql
+- Web App
